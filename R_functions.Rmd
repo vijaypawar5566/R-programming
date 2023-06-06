@@ -1,0 +1,185 @@
+---
+title: "R Functions"
+output: html_notebook
+---
+
+**User Defined Function**
+
+These are used for customization by the user.
+Repeated set of instructions are put in function to be used again
+It makes programs readable and easy to understand
+
+**Without argument**
+Here function is created without any arguments.
+It will have process inside it.
+This function may or may not return any value
+
+```{r}
+display = function(){
+  print("This is a function ....")
+}
+display
+display() # calling the function
+```
+
+
+
+**With argument**
+
+```{r}
+add = function(a,b){ 
+  # all functions can handle array / matrix/a single value/any data type
+  return(a+b)
+}
+add(23,45)
+add(c(3,4),c(6,7))
+add(3+8i,7+4i)
+add("k","l")
+
+```
+
+```{r}
+# Create function to calculate tax for given income
+# if income > 5 lac then tax = 20% of income
+# else tax 10% of income
+# return amount of tax
+tax_calc = function(income){
+  if(income>500000){
+    tax=income*20/100
+    #print(tax)
+  }else{
+    tax=income*10/100
+    #print(tax)
+  }
+  return(tax)
+}
+tax_calc(900000)
+apply(array(c(200000,80000,560000,45000),dim=c(4,1)),c(1) , tax_calc)
+```
+
+
+**With Default argument**
+
+```{r}
+pow = function(n,p=2){
+  return(n^p)
+}
+pow(23)
+pow(34,5)
+```
+
+**Lazy Evaluation of Function**
+
+```{r}
+square = function(a,b){
+  print(a^2)
+}
+square(2)
+square(2,56)    
+```
+
+```{r}
+# WAP to create a function to 
+# calculate total salary of an employee
+# given basic
+# HRA = 10 % of basic
+# TA = 20% of basic
+# total = basic + HRA + TA
+# return total salary
+
+```
+
+
+
+**Built in functions**
+
+```{r}
+x = c(45,-34,23,11.33)
+abs(x)
+x = c(1,4,6)
+log(x)
+x = c(1,4,6)
+exp(x) # base is e .. e^no
+x = c(1,4,6)
+sqrt(x)
+x = c(1,4,6)
+factorial(x)
+x = c(1,4,6)
+sin(x)
+x = c(1,4,6)
+cos(x)
+x = c(1,0,-5,10,-34,0,0,100,-90)
+sign(x)
+```
+
+
+```{r}
+x=c(10,-20,-30,80,-90,40,20.1,0)
+sign(x)
+```
+
+**Match Function**
+match returns a vector of the positions of (first) matches of its first argument in its second.
+
+%in% internally uses match
+
+```{r}
+x=c(10,20,30,10,20)
+y=c(20,20,40)
+match(x,y)
+match(y,x)
+ux <- unique(x)
+ux
+match(x, ux)
+```
+
+```{r}
+x=c(10:30)
+y=c(10,20,60)
+x
+y
+match(y,x)
+
+```
+
+```{r}
+x=c(10,20,30,40,50)
+y=c(20,4,60,50,30)
+x
+y
+match(x,y)
+```
+
+
+
+**Tabulate Function**
+
+tabulate() function takes the integer-valued vector bin and counts the number of times each integer occurs in it
+
+```{r}
+tabulate(c(-5,0,3,5,4,5,4,10))
+tabulate(c(3,5,4,5,4,100),nbins=4)
+tabulate(c(3,5,4,8),nbins=4)
+tabulate(c(3,5,4,8),nbins=10)
+```
+
+
+```{r}
+x=c(10,300,30,10,300)
+ux <- unique(x)
+ux
+match(x, ux)
+tabulate(match(x, ux))
+```
+
+
+
+**NOTE ABOUT OPERATORS**
+
+Every operator is a function
+
+```{r}
+'+'(90,45)
+'*'(34,56)
+```
+

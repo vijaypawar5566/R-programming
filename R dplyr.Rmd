@@ -1,0 +1,372 @@
+---
+title: "R dplyr"
+output: html_notebook
+---
+
+```{r}
+#install.packages("dplyr")
+library(dplyr)
+```
+
+```{r}
+# Clear R workspace
+rm(list = ls() ) 
+```
+
+```{r}
+movies <- read.csv("C:/Users/dbda/Documents/moviesData.csv")
+movies
+```
+
+**dplyr filter function**
+
+```{r}
+moviesComedy <- filter(movies,
+                       genre == "Comedy")
+moviesComedy
+```
+
+```{r}
+moviesComDrP <- filter(movies,
+                       genre %in% c("Comedy", "Drama"))
+moviesComDrP
+```
+
+
+```{r}
+moviesComIm <- filter(movies,
+                       genre == "Comedy" & imdb_rating >= 7.5)
+moviesComIm
+```
+
+```{r}
+moviesRunRel <- filter(movies,runtime < 100 | thtr_rel_year > 2000)
+moviesRunRel
+```
+
+
+**dplyr arrange**
+
+```{r}
+# Arrange the movies in ascending order of imdb_rating
+moviesImA <- arrange(movies, imdb_rating) 
+moviesImA
+```
+
+
+
+
+
+```{r}
+# Arrange the movies both by genre and imdb_rating
+moviesGeIm <- arrange(movies, genre, imdb_rating)
+moviesGeIm
+```
+
+```{r}
+levels(movies$mpaa_rating)
+```
+
+```{r}
+# Arrange the movies in descending order 
+moviesImD <- arrange(movies, runtime, desc(mpaa_rating),genre) 
+moviesImD
+```
+
+**dplyr select operation**
+
+```{r}
+moviesTGI = select(movies, title, genre, imdb_rating)
+moviesTGI
+```
+
+```{r}
+moviesTtoI = select(movies, title:imdb_rating)
+moviesTtoI
+```
+
+```{r}
+moviesTtoI = select(movies, c(2,5,7)) # -c(4,10) c(2,5,7) 2,5,7
+moviesTtoI
+```
+
+**select function options**
+
+starts_with
+ends_with --> select all columns ends with 'rating'
+contains 
+matches --> find macthing columns using regular expressions "?*.[]"
+num_range("y",1:5) --> y1,y2,y3,y4,y5  
+one_of --> select one of the columns of array
+any_of
+
+```{r}
+names(movies)
+```
+
+
+
+```{r}
+moviesTHT = select(movies, title, starts_with("best"))
+names(moviesTHT)
+```
+
+```{r}
+moviesTHT = select(movies, title, contains("rel"))
+names(moviesTHT)
+```
+
+
+```{r}
+moviesTHT = select(movies, title, contains("imdb"))
+names(moviesTHT)
+# match with Imdb imdb
+moviesTHT = select(movies, title, matches("[Ii]mdb")) 
+names(moviesTHT)
+
+```
+
+```{r}
+movies_acto_15 = select(movies, num_range("actor",1:5))
+names(movies_acto_15)
+```
+
+
+
+```{r}
+hd_df = read.csv("76_attributes_heartdiseases.csv")
+hd_df_v1_v5 = select(hd_df, num_range("V",10:5))
+names(hd_df_v1_v5)
+```
+
+```{r}
+# any_of is used to remove the columns efficiently
+moviesTHT = select(movies, - any_of(c("title","imdb_rating")))
+names(moviesTHT)
+moviesTHT = select(moviesTHT, - any_of(c("title","imdb_rating")))
+names(moviesTHT) # no error even if columns are absent
+
+```
+
+**dplyr rename**
+
+```{r}
+moviesR = rename(movies, rel_yr = "thtr_rel_year") # new_name = "existing name"
+moviesR
+```
+
+**dplyr mutate**
+
+```{r}
+moviesMu = mutate(movies, 
+                  newScore = max(critics_score - audience_score,0),
+                  avg_Score = (runtime + critics_score + audience_score) / 3,
+                  min_score = min(critics_score,audience_score)
+                  )
+moviesMu
+moviesMu$avg_Score
+```
+
+```{r}
+# Print all movies which are released after 2001 , genre drama and avg_score > 60
+# where avg_score = (critics_score+audience_score)/2
+
+moviesnew=filter(movies,thtr_rel_year>2001,genre=="Drama")
+moviesnew
+moviesmutatenew=mutate(moviesnew,avg_score=(critics_score+audience_score)/2)
+moviesfinal=filter(moviesmutatenew,avg_score>60)
+moviesfinal
+```
+
+**Exercise**
+
+Print all movies which have runtime > 100, in descending order of new_rating 
+
+new_rating = (critics_score+audience_score)/ imdb_num_votes
+
+
+
+
+
+```{r}
+mv = filter(movies,actor1 == "John Cusack" )
+arrange(mv,desc(imdb_rating))
+```
+
+
+**dplyr summarise**
+
+min(x) - minimum value of vector x .
+max(x) - maximum value of vector x .
+mean(x) - mean value of vector x .
+median(x) - median value of vector x .
+quantile(x, p) - pth quantile of vector x .
+sd(x) - standard deviation of vector x .
+var(x) - variance of vector x .
+IQR(x) - Inter Quartile Range (IQR) of vector x .
+diff(range(x)) - total range of vector x .
+
+special functions
+
+first(x) - The first element of vector x .
+last(x) - The last element of vector x .
+nth(x, n) - The nth element of vector x .
+n() - The number of rows in the data.frame or group of observations that summarise()
+describes.
+n_distinct(x) - The number of unique values in vector 
+
+
+```{r}
+moviesComDrP <- filter(movies,
+                       genre %in% c("Comedy", "Drama"))
+summarise(moviesComDrP, mean(imdb_rating))
+summarise(movies,mean_imdb =  mean(imdb_rating), qt = quantile(imdb_rating,0.5))
+```
+
+```{r}
+mv = filter(movies,actor1 == "John Cusack" )
+summarise(mv, max(imdb_rating))
+```
+```{r}
+summary(movies$imdb_num_votes) #na.rm=TRUE
+```
+```{r}
+summarise(movies, min(imdb_num_votes),max(imdb_num_votes),
+          mean(imdb_num_votes),median(imdb_num_votes),
+          sd(imdb_num_votes),quantile(imdb_num_votes,0.2)
+          ,n_distinct(imdb_num_votes),n())
+
+```
+
+
+**dplyr group_by**
+
+```{r}
+grpMovies = group_by(movies,genre)
+grpMovies
+```
+
+```{r}
+moviesDr <- filter(movies,
+                       genre == "Drama")
+grpMoviesDr = group_by(moviesDr,mpaa_rating)
+summarize(grpMoviesDr,mean(imdb_rating))
+```
+
+```{r}
+groupmovies=group_by(movies,genre)
+
+summarise(groupmovies,mean(audience_score),mean(imdb_rating),median(imdb_num_votes))
+
+```
+
+**dplyr pipe operator**
+
+%>% pipe operator
+
+```{r}
+movies %>%
+  filter(genre == "Drama") %>%
+  group_by(actor1) %>%
+  summarize(mean_act_rating = mean(imdb_rating)) %>%
+  arrange(desc(mean_act_rating)) %>%
+  head()
+# get best 6 actors which have high mean imdb ratings
+```
+
+
+
+```{r}
+# WAP to get first 10 actors in drama movies with highest mean imdb rating
+movies %>%
+  filter(genre == "Drama") %>%
+  group_by(actor1)         %>%
+  summarize(mean_act_rating = mean(imdb_rating)) %>%
+  ungroup() %>% # release the group
+  arrange(desc(mean_act_rating)) %>%
+  slice(1:10)#slice((n()-9):n()) #slice_tail(n=10)
+
+```
+
+**Store output in the Dataframe**
+
+```{r}
+actor_rating =   movies %>%
+  filter(genre == "Drama") %>%
+  group_by(actor1)         %>%
+  summarize(mean_act_rating = mean(imdb_rating)) %>%
+  ungroup() %>%
+  arrange(desc(mean_act_rating)) %>%
+  as.data.frame()
+
+actor_rating
+```
+
+```{r}
+df = read.csv("cleaned_76hd.csv")
+head(df)
+```
+
+```{r}
+static_m_f=df %>%
+  group_by(V4,V58)%>%
+  summarise(median(V9),mean(V12),mean(V10),mean(V40))
+
+static_m_f
+```
+```{r}
+static_s_nos=df %>%
+  group_by(V13,V58)%>%
+  summarise(n(),median(V9),mean(V12),mean(V10),mean(V40))
+
+static_s_nos
+```
+
+```{r}
+
+# WAP  with PIPE on employeeattrition.csv
+#1. count employees with highest hourly rate
+#2. count employees who stay near the company 
+# and who left (attrition =1) the company  
+#3. Find avg hourly rate of every department
+#4. Find employees in any one department with daily rate more than average
+
+```
+
+
+```{r}
+df = read.csv("EmployeeAttrition.csv")
+ncol(df)
+names(df)
+```
+
+```{r}
+max(df$HourlyRate)
+result=summarise(df,max(HourlyRate))
+result
+
+```
+
+```{r}
+df %>%
+  filter(HourlyRate == max(HourlyRate)) %>%
+  summarise(n())
+
+```
+
+```{r}
+#3. Find avg hourly rate of every department
+df %>%
+  group_by(Department)%>%
+  summarise(mean(HourlyRate))
+
+```
+
+
+```{r}
+#4. Find employees in any one department with daily rate more than average
+# Department == 'Sales'
+df %>%
+  filter(DailyRate > mean(DailyRate), Department == 'Sales') 
+```
+

@@ -1,0 +1,179 @@
+---
+title: "R Analytics using ggplot2 "
+output: html_notebook
+---
+
+The main difference is that, unlike base graphics, ggplot works with dataframes and not individual vectors. 
+
+All the data needed to make the plot is typically be contained within the dataframe supplied to the ggplot().
+
+```{r}
+#install.packages(ggplot2)
+library(ggplot2)
+```
+
+**mtcars dataset in R**
+
+A data frame with 32 observations on 11 (numeric) variables.
+
+[, 1]	mpg	Miles/(US) gallon
+
+[, 2]	cyl	Number of cylinders
+
+[, 3]	disp	Displacement (cu.in.)
+
+[, 4]	hp	Gross horsepower
+
+[, 5]	drat	Rear axle ratio
+
+[, 6]	wt	Weight (1000 lbs)
+
+[, 7]	qsec	1/4 mile time
+
+[, 8]	vs	Engine (0 = V-shaped, 1 = straight)
+
+[, 9]	am	Transmission (0 = automatic, 1 = manual)
+
+[,10]	gear	Number of forward gears
+
+[, 11] carb     number of carburetors
+
+```{r}
+data("mtcars")
+head(mtcars)
+```
+
+
+**Scatter plot with ggplot**
+
+```{r}
+df = mtcars[ , c('cyl','mpg')]
+ggplot(mtcars , aes(x=cyl, y=mpg)) +  geom_point(size = 4)
+# wt vs hp , wt vs mpg, hp vs mpg
+```
+
+
+```{r}
+df = mtcars[, c('mpg','hp')]
+ggplot(df , aes(x=mpg, y=hp)) +  geom_point(size = 1)
+```
+
+
+
+**mpg dataset in R**
+
+
+Variable	Type	Description	Details
+
+manufacturer	string	car manufacturer	15 manufacturers
+
+model	string	model name	38 models
+
+displ	numeric	engine displacement in liters	1.6 - 7.0, median: 3.3
+
+year	integer	year of manufacturing	1999, 2008
+
+cyl		number of cylinders	4, 5, 6, 8
+
+trans	string	type of transmission	automatic, manual (many sub types)
+
+drv	string	drive type	f, r, 4, f=front wheel, r=rear wheel, 4=4 wheel
+
+cty	integer	city mileage	miles per gallon
+
+hwy	integer	highway mileage	miles per gallon
+
+fl	string	fuel type	5 fuel types (diesel, petrol, electric, etc.)
+
+class	string	vehicle class	7 types (compact, SUV, minivan etc.)
+
+
+
+**Box plots**
+
+ It visualises five summary statistics (the median, two hinges and two whiskers), and all "outlying" points individually.
+
+
+```{r}
+head(mpg)
+ggplot(mpg, aes(class, hwy)) + geom_boxplot()
+ggplot(mpg, aes(model, hwy)) + geom_boxplot()
+ggplot(mpg, aes(class, hwy)) + geom_boxplot(outlier.colour = "red", outlier.shape = 2)
+ggplot(mpg, aes(hwy, class)) + geom_boxplot()
+
+```
+ 
+```{r}
+mpg$year
+```
+ 
+ 
+
+```{r}
+ggplot(mpg, aes(factor(year), hwy)) +
+ geom_boxplot(outlier.colour = "red", outlier.shape = 5)
+```
+
+```{r}
+ggplot(mpg, aes("", hwy)) +
+ geom_boxplot(outlier.colour = "red", outlier.shape = 5)
+```
+
+
+
+**Histogram **
+
+```{r}
+ggplot(data=mpg, aes(cty)) + geom_histogram(binwidth=1)
+```
+
+
+```{r}
+ggplot(data=mpg, aes(displ)) + geom_histogram(binwidth=2)
+ggsave("displacement.png")
+```
+
+```{r}
+data(mtcars)
+ggplot(mtcars,aes(cyl,mpg))+ geom_boxplot()
+ggplot(mtcars,aes(mpg,cyl))+ geom_boxplot()
+ggplot(mtcars,aes(factor(cyl),mpg))+ geom_boxplot()
+
+```
+
+
+```{r}
+head(iris)
+iris$Sepal.Width = iris$Sepal.Width *10 
+iris$Petal.Length = iris$Petal.Length * 10
+head(iris)
+ggplot(iris,aes(x=Sepal.Width,y=Petal.Length))+geom_point(size=4) # error with quote
+# if quotes are given
+# data is taken as a single string
+ggplot(iris,aes(x='Sepal.Width',y='Petal.Length'))+geom_point(size=4)
+
+```
+
+```{r}
+ggplot(mpg,aes(x=drv,y=trans))+geom_point()
+
+```
+
+
+**Load Heart disease data set**
+
+```{r}
+mydata = read.csv("76_attributes_heartdiseases.csv",na.strings=c("-9","-18"))
+names(mydata)
+```
+
+```{r}
+min(mydata$V3)
+max(mydata$V3)
+mydata$age_group = cut( mydata$V3, breaks=c(29,50,77),labels=c("29-50","50-77"))
+#mydata$age_group
+ggplot(mydata,aes(x=age_group,y=V10))+geom_boxplot()
+ggplot(mydata,aes(x="",y=V10))+geom_boxplot()
+ggplot(mydata,aes(x="",y=V1))+geom_boxplot()
+```
+

@@ -1,0 +1,163 @@
+---
+title: "R Loops"
+output: html_notebook
+---
+
+**Repeat Loop**
+
+The Repeat loop executes the same code again and again until specifically taken out by the programmer.
+
+
+_NOTE_ If no specific _break_ statement is written, then this will be infinite loop.
+
+```{r}
+v = c("Inside", "loop")
+cnt = 1
+repeat{
+  print(v)
+  cnt = cnt+1
+  if(cnt > 5){
+    break
+  }
+}
+```
+
+**While Loop**
+
+Loop runs till the test condition is TRUE. When test condition is FALSE then loop stops.
+
+```{r}
+cnt = 1
+while (cnt <= 4)
+{
+  print(cnt)
+  cnt = cnt + 1
+}
+```
+
+**For Loop**
+
+
+```{r}
+print(LETTERS)
+print(letters)
+v <- LETTERS[21:length(LETTERS)]
+for ( i in v) {
+  print(i)
+}
+v1 = c(10,20,30)
+for( i in v1){
+  print(log(i))
+}
+log(v1)
+
+```
+
+Assignment::
+Take an array
+Print sum of alternate elements starting from index 2
+ex a = c(90,67,78,34) ## 101
+
+```{r}
+a = c(90,67,78,34,23)
+index=2
+sum_a_alt=0
+while( index <= length(a))
+{
+  sum_a_alt = sum_a_alt + a[index]
+  index = index+2
+}
+print(sum_a_alt)
+```
+
+```{r}
+a = c(90,67,78,34,23)
+print(seq(2,length(a),2))
+sum_a_alt=sum(a[seq(2,length(a),2)])
+sum_a_alt
+```
+
+
+**Break statement**
+
+_break_ statement will break the flow of the loop which is immediate. 
+
+_NOTE_ If there is loop within loop then control will be taken out of only one loop.
+
+```{r}
+for ( i in 1:4)
+  for (j in 10:25){
+    print(j)
+    if(j == 12)
+      break
+  }
+
+```
+
+**Next Statement**
+
+The next statement in R programming language is useful when we want to skip the current iteration of a loop without terminating it.
+
+```{r}
+v = LETTERS[1:6]
+for ( i in v){
+  if (i == "D"){
+    next
+  }
+  print(i)
+}
+```
+
+**Making Loops Faster**
+
+**lapply function**
+
+```{r}
+lapply
+```
+
+Example::
+```{r}
+# rnorm function generates random n values with mean 0 and std dev 1
+x <- list(a = 1:5, b = rnorm(10))
+x$b
+lapply(x, mean)
+```
+
+**lapply with multiple arguments**
+
+
+
+```{r}
+x <- 1:4
+lapply(x, runif, min = 10, max = 80)
+```
+
+
+**sapply (simplify lapply)**
+
+
+sapply() calls lapply() on its input and then applies the following algorithm:
+
+
+If the result is a list where every element is length 1, then a vector is returned
+
+
+If the result is a list where every element is a vector of the same length (> 1), a matrix is returned.
+
+
+If it can’t figure things out, a list is returned
+
+```{r}
+sapply
+```
+
+
+Example
+
+```{r}
+# rnorm function generates random n values with mean 0 and std dev 1
+x <- list(a = 1:5, b = rnorm(10))
+sapply(x, mean)
+```
+

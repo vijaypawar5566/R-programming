@@ -1,0 +1,158 @@
+---
+title: "R Operators"
+output: html_notebook
+---
+
+**Types of Operators**
+1 Arithmetic Operators
+2 Relational Operators
+3 Logical Operators
+4 Assignment Operators
+5 Miscellaneous Operators
+
+**Arithmetic Operators**
++ . - . * , /, %% (mod), %/% (integer division), ^
+
+```{r}
+x = c(15,22)
+y = c(3,5)
+x
+y
+cat("\n Addition :",x+y)
+cat("\n Substraction :",x-y)
+cat("\n Multiplication :", x*y)
+cat("\n Division :", x/y)
+cat("\n Mod (remainder):",x%%y)
+cat("\n Integer division",x%/%y)
+cat("\n Power operation:",x^y)
+```
+
+**Relational Operators**
+
+< , > , == , !=, >=, <=
+
+```{r}
+x = c(15,22)
+y = c(3,5)
+cat("\n Less than ::",x<y)
+cat("\n Greater than::",x>y)
+cat("\n Equal ::", x==y)
+cat("\n Not equal ::", x!=y)
+cat("\n Greater than equal::",x>=y)
+cat("\n Less than equal ::",x<=y)
+```
+
+**Logical Operators**
+
+vector operator :: &&, || (Compares only first element of vectors)
+Element wise operators :: &, | , ! (Compares all elements one by one)
+
+Non Zero values are TRUE
+[Negative nos are TRUE and positive nos are TRUE]
+
+Zero is FALSE
+
+
+```{r}
+v <- c(3,0,56.23,2+2i)
+z= c(TRUE,FALSE,TRUE,FALSE)
+t <- c(0,3,TRUE,2+3i)
+v
+t
+print(v&t)
+print(v&&t)
+#print(v||t)
+#print(v|t)
+
+x=10
+y=0
+print(x&y)
+print(x&&y)
+
+```
+
+```{r}
+# WAP to check working of & , &&, |, ||
+x=c(23,0,34,-4,6)
+y=c(23,67,12,78,5.67)
+z=c(53,987,2.2,6,8)
+#& , && , |, ||
+
+```
+
+
+**Assignment Operators**
+<-, =, <<- :: left assignment
+->, ->> :: right assignment
+
+```{r}
+x = 10
+y<-20
+z<<-24
+
+34-> n
+35 ->> b
+cat(x,y,z,n,b)
+```
+
+
+**Miscellaneous Operators**
+
+%in% :: This operator is used to identify if an element belongs to a vector. %in% returns a logical vector as long as the first argument, with a TRUE if that value can be found in the second argument and a FALSE otherwise
+%*% :: This operator is used to get dot product of matrix.
+
+```{r}
+v1 <- 8
+v2 <- 15
+x=c(8,15)
+t <- c(9,12,45,8,67,5,8)
+print(v1 %in% t) 
+print(v2 %in% t)
+print(t %in% v1)
+print(t %in% v2)
+```
+
+```{r}
+x=c(8,15)
+t <- c(9,12,15,8,67,5,8)
+print(t %in% x)
+print(which(t %in% x))
+```
+
+```{r}
+x=c(8,15)
+t <- c(9,12,15,8,67,5,8)
+print(x %in% t)
+print(which(x %in% t))
+```
+
+
+```{r}
+x=c(1:10)
+y=c(3,9,11,15,2,7,8,2)
+x
+y
+x%in%y
+x[x%in%y] #--> select all elements from x which are present in y 
+y%in%x
+y[y%in%x] # --> select all elements of y which are present in x
+```
+
+
+```{r}
+M = matrix( c(2,6,5,1,10,4), nrow=2,ncol=3)
+M1 = matrix( c(20,60,50,1,10,4), nrow=3,ncol=2)
+print(M)
+print(t(M))
+ans = M * M
+print(ans)
+ans = M %*% t(M) #size 2 by 2
+print(ans)
+ans = M %*% M1 #size 2 by 2
+print(ans)
+```
+
+```{r}
+
+```
+

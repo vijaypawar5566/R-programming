@@ -1,0 +1,250 @@
+---
+title: "R Dataframes"
+output: html_notebook
+---
+
+**Create Dataframe from matrix / array**
+
+_as.data.frame()_
+
+```{r}
+M1 = matrix(c(1,2,3,4),nrow=2)
+#M1
+df <- as.data.frame(M1)
+df
+df$V1
+```
+
+```{r}
+str(df)
+```
+
+
+```{r}
+is.data.frame(df)
+```
+
+```{r}
+nrow(df)
+```
+
+```{r}
+ncol(df)
+```
+
+
+```{r}
+length(df)
+```
+
+```{r}
+colnames(df)
+```
+
+```{r}
+names(df)
+```
+
+
+```{r}
+M1 = matrix(c(1,2,3,4),nrow=2)
+m_df <- as.data.frame(M1)
+colnames(m_df) = c('c1','c2') # change column names
+print(m_df)
+str(m_df)
+ncol(m_df)
+```
+
+
+```{r}
+#nominal varible doesn't have any order
+emp = c("John Doe", "Peter Gynn", "Jolie Hope")
+#Ordinal varible has order
+designation <- factor(c("Manager", "Team Lead","SME"), ordered =TRUE,          levels = c("SME", "Team Lead","Manager"))
+salary <- c(41000, 33400, 26800)
+startdate <- as.Date(c("2010-11-1", "2008-3-25", "2007-3-14"))
+employee.data <- data.frame(emp, designation,salary, startdate)
+
+str(employee.data)
+employee.data
+```
+
+```{r}
+?data.frame
+```
+
+
+```{r}
+employ.data <- data.frame(emp, salary, startdate, stringsAsFactors=TRUE)
+str(employ.data)
+```
+
+```{r}
+# variaable name can have .
+employ.data <- data.frame(emp, salary, startdate, stringsAsFactors=FALSE)
+# select rows based on condition
+employ.data[employ.data$salary>35000,]
+```
+
+```{r}
+employ.data$salary
+```
+
+```{r}
+employ.data[c('emp','salary')]
+```
+
+```{r}
+employ.data[employ.data$salary>35000,c('emp','salary')]
+```
+
+
+**Reading TEXT / CSV into Data frame**
+
+read.csv(file, header = TRUE, sep = ",", quote = "\"",
+         dec = ".", fill = TRUE, comment.char = "", ...)
+
+GET HELP --> ?read.csv
+
+read.csv2(file, header = TRUE, sep = ";", quote = "\"",
+          dec = ",", fill = TRUE, comment.char = "", ...)
+
+```{r}
+df = read.csv("76_attributes_heartdiseases.csv")
+summary(df)
+```
+
+
+```{r}
+
+#df_sample = read.csv("sample3.txt",sep="")
+#df_sample
+df_sample = read.csv("sample1.txt",sep="|")
+df_sample
+```
+
+```{r}
+df = read.csv("76_attributes_heartdiseases.csv")
+summary(df$V73)
+df = read.csv("76_attributes_heartdiseases.csv",na.strings=c("-9","-18"))
+summary(df$V73)
+```
+
+```{r}
+summary(df)
+```
+
+
+```{r}
+df_sample = read.csv("sample2.txt",skip=2,sep="|")
+df_sample
+df_sample = read.csv("sample2.txt",skip=2,sep="|",blank.lines.skip=FALSE)
+df_sample
+df_sample = read.csv("sample2.txt",skip=0)
+df_sample
+```
+
+**Few more IMP operations in read.csv**
+
+stringsAsFactors --> Default to TRUE. String columns will be treated as factors
+
+                    If FALSE then Strings will be kept intact
+
+encoding --> For handing unicode or other encoding problems
+
+nrows --> integer: the maximum number of rows to read in. 
+
+            Negative and other invalid values are ignored.
+            
+            Useful when loading very large files 
+
+
+
+```{r}
+print(ncol(df))
+```
+
+```{r}
+print(nrow(df))
+```
+
+```{r}
+summary(df)
+```
+
+**Create subset of a dataframe**
+
+We can use subset() function. HELP --> ?subset
+
+Arguments:
+
+data / data frame
+
+condition based on which to create the subset
+
+select --> specify the array of columns to be selected
+
+
+```{r}
+df_1 = subset(df, df$V1 > 200)
+head(df_1)
+df_1 = subset(df, df$V1 > 200, select = c("V1","V2"))
+head(df_1)
+nrow(df_1)
+```
+
+
+```{r}
+head(mtcars)
+mtcars[mtcars$mpg > 20 , ]
+mtcars[mtcars$mpg > 20 , c('mpg')]
+mtcars[(mtcars$mpg > 20) & (mtcars$cyl != 6), c('wt','cyl','mpg')]
+
+
+```
+
+**Select all Numeric Columns or All String/Character Columns**
+
+```{r}
+library("ggplot2")
+head(mpg)
+Filter(is.numeric, mpg)
+Filter(is.character, mpg)
+```
+
+```{r}
+M1 = matrix(c(1234,2235,67,85),nrow=2)
+m1_df <- as.data.frame(M1)
+colnames(m1_df) = c('roll_no','marks_mod1')
+m1_df
+M2 = matrix(c(1234,2235,75,68),nrow=2)
+m2_df <- as.data.frame(M2)
+colnames(m2_df) = c('roll_no','marks_mod2')
+m2_df
+merge(m1_df,m2_df,by = "roll_no")
+```
+
+**Merge Dataframes**
+```{r}
+M1 = matrix(c(1234,2235,67,85),nrow=2)
+m1_df <- as.data.frame(M1)
+colnames(m1_df) = c('roll_no','marks_mod1')
+m1_df
+M2 = matrix(c(1234,2235,75,68),nrow=2)
+m2_df <- as.data.frame(M2)
+colnames(m2_df) = c('r_no','marks_mod2')
+m2_df
+M3 = matrix(c(1234,2235,50,45),nrow=2)
+m3_df <- as.data.frame(M3)
+colnames(m3_df) = c('r_no','marks_mod3')
+m3_df
+merge(m1_df,m2_df,by.x = "roll_no", by.y = "r_no")
+merge(m2_df,m3_df,by = "r_no")
+```
+
+**Store Datframe to a File **
+
+```{r}
+write.csv(m2_df,"new_df.csv")
+```
+

@@ -1,0 +1,126 @@
+---
+title: "R Data Types Part 2"
+output: html_notebook
+---
+
+```{r}
+x_arr = c(1, "a", TRUE, 1+4i)
+x_arr
+x <- list(1, "a", TRUE, 1+4i)
+x
+```
+
+```{r}
+x <- vector("list", length = 5) # empty list
+x
+length(x)
+class(x)
+```
+
+```{r}
+x <- list(1, "a", c(1,2,3), 1+4i)
+x
+x[2]
+x[[2]]
+```
+
+
+```{r}
+x <- list(1, "a", c(1,2,3), 1+4i)
+x[1] = 3
+x[[3]] = "name" #c(1,3,5)
+x
+```
+```{r}
+x <- list(1, "a", c(1,2,3), 1+4i)
+x[3]= c(10)
+x
+```
+
+
+
+```{r}
+x <- list(1, "a", c(1,2,3), 1+4i)
+x
+x[[3]][3]
+x[[3]][-2] #
+x[[2]]
+```
+
+```{r}
+x= list(1,"kk")
+y = list(c(1,2,3),list(78,78),2+67i,3,"lll")
+a = array(c(x,y))
+class(a)
+a
+```
+
+
+```{r}
+x <- 1:10 # range operator special behavior as dtypes integer
+class(x)
+x <- as.list(x)
+class(x)
+```
+
+
+```{r}
+# list is just like key value pair
+xlist <- list(a = "Shantanu Pathak", b = 1:10, data = head(iris))
+xlist
+
+```
+
+```{r}
+# list is just like key value pair
+xlist <- list(a = "Shantanu Pathak", b = 1:10, data = head(iris))
+names(xlist) # return all the keys in list 
+xlist$a
+xlist$b
+xlist$data
+```
+
+**Factors**
+ factor- type vector contains a set of numeric codes with character-valued levels.
+
+Regardless of the levels/labels of the factor, the numeric storage is an integer with 1 corresponding to the first level (in alph-order)
+
+```{r}
+students = factor(c(100,0,100,0,0,0), levels = c(0, 100), labels = c("boy", "girl"))
+students
+```
+
+```{r}
+as.numeric(students)
+ 1 + as.numeric(students)
+```
+
+```{r}
+grades = factor(c("A","B","A+","A","B","B","A","A+"))
+grades
+as.numeric(grades)
+nlevels(grades)
+```
+
+```{r}
+iris$Species
+class(iris$Species)
+nlevels(iris$Species)
+as.numeric(iris$Species)
+```
+
+```{r}
+designation <- factor(c("Manager", "Team Lead","SME"), ordered =TRUE)
+designation
+designation <- factor(c("Manager", "Team Lead","SME"), ordered =TRUE, levels = c("SME", "Team Lead","Manager"))
+designation
+as.numeric(designation)
+```
+
+
+```{r}
+val<-factor(c("r1","r2","r1","r2","r2","r3","r1"),ordered = TRUE,levels = c("r3", "r2","r1"))
+val
+as.numeric(val)
+```
+

@@ -1,0 +1,529 @@
+---
+title: "Basic R"
+output: html_notebook
+---
+
+**Print Hello world**
+
+These are different ways to print
+
+```{r}
+print("Hello world !!")
+cat("... This is "," another ", "way!")
+cat("\n But '\\n' is must!!")
+paste("still another way ...", "..great!","kll") # 
+print(paste("still another way ...", "..great!"))
+```
+
+**Accept user input**
+
+
+```{r}
+yourname <- readline(prompt="What is your name? ")
+print(yourname)
+print(class(yourname))
+age <- readline(prompt="What is age? ")
+print(age)
+print(class(age))
+```
+
+**Setting current Working Directory**
+
+
+```{r}
+# \\ /
+setwd("D:/R_projects/CDAC_Statistical_analysis_with_R")
+```
+
+
+
+
+**All variables of Environment**
+When you want to remind yourself of all the variables you’ve created in
+the environment, use ls().
+
+```{r}
+ls()
+```
+
+**Deleting Variables**
+Variable can be deleted using rm()
+You can use any variable name you have created
+
+```{r}
+ls()
+rm(yourname)
+ls()
+```
+
+
+**Creating variables and Array**
+
+Variable types are 
+(As per the oder)
+Logical
+Integer
+Numeric
+Complex
+Character
+** list
+
+```{r}
+
+x=100000L
+print(class(x))
+x=10
+print(class(x))
+x=10.67
+print(class(x))
+x=TRUE
+print(class(x))
+x=5+4i
+print(class(x))
+x="Hi"
+print(class(x))
+
+```
+
+**Create Array**
+
+In R we can use c() function also known as combine.
+
+```{r}
+x_dim1 = c(10,20,30,40,50,60)
+print(x_dim1)
+```
+
+
+
+```{r}
+x_dim1 = c(10,20,30,40,50,60)
+print(x_dim1)
+x_mix = c(3,0,TRUE,2+2i) #3+0i 0+0i 1+0i 2+2i
+print(x_mix)
+x_mix = c(0,"IACSD R Prog",TRUE,2+2i) #"0"            "IACSD R Prog" "TRUE"         "2+2i"   
+print(x_mix)
+
+
+
+############# VECTOR Function
+x_vec = vector("numeric", 5) 
+print(x_vec)
+x_vec = vector("complex", 5)
+print(x_vec)
+x_vec = vector("logical", 5)
+print(x_vec)
+x_vec = vector("character", 5)# array of strings
+print(x_vec)
+x_vec = vector("list", 5)
+print(x_vec)
+
+```
+
+```{r}
+############# ARRAY Function
+x_dim2 = array(c(10,20,30,40,50,60,70),dim=c(2,3))
+print(x_dim2)
+```
+
+```{r}
+# WAP to create array for 2 by 2
+```
+
+
+
+```{r}
+# WAP to create array for 3 by 4
+x_dim2 = array(c(1,2,3),dim=c(3,4))
+print(x_dim2)
+```
+
+```{r}
+?array
+```
+
+
+
+```{r}
+x_dim2 = array(c(10,20,30,40,50),dim=c(2,2))
+print(x_dim2)
+```
+
+
+
+**Creating Sequences by ':' operator**
+
+```{r}
+print(3:12)
+print(8.5:4.5)
+print(-12:1)
+print(c(1, 1:3, c(5, 8), 13))
+```
+
+```{r}
+print(10.45:5)
+a = c(10:20)
+a
+
+```
+
+```{r}
+print(c(1, 1:3, c(5, 8), 13))
+```
+
+
+
+```{r}
+x_dim2 = array(1:9,dim=c(3,3))
+print(x_dim2)
+```
+
+
+**Creating Sequences by seq class**
+
+Similar to range function in python
+
+```{r}
+print(seq.int(3, 12))
+print(seq.int(3, 12, 0.5))
+print(seq.int(0.1, 0.01, -0.01))
+print(seq.int(2,100,2))
+print(seq.int(99,90,-2))
+```
+
+```{r}
+print(seq.int(10,20,-1))
+```
+
+**Sequence by seq_len function**
+
+It takes 'n' as parameter. And creates sequence from 1:n
+
+```{r}
+print(seq_len(10))
+```
+
+**Sequence by seq_along function**
+
+It is useful when we want to create sequence of length of input array
+
+```{r}
+v = c(45,56,66,34,23,100,450)
+print(v)
+seq_along(v)
+print(seq_len(length(v)))
+```
+
+**Creating Vectors by Repeatition using rep() function**
+
+```{r}
+rep(1:5, 3)
+rep(1:5, each = 3)
+rep(1:5, times = 1:5)
+rep(1:5, length.out = 7)
+rep.int(1:5, 3)
+rep_len(1:5, 7)
+```
+
+```{r}
+rep(1:5, times = c(5,3,8,1,1))
+# first 5 times ,, 2nd 3 times , 3rd 8 times, 4th 1 , 5 th 1
+```
+
+
+**Sum function**
+```{r}
+x=c(1,2,3)
+sum(x)
+x_dim2 = array(1:9,dim=c(3,3))
+sum(x_dim2)
+```
+
+
+
+```{r}
+r = array(c(10,67,-30,0,50,60),dim=c(2,3))
+r
+sum(r)
+length(r)
+max(r)
+min(r)
+```
+
+
+**Length function**
+```{r}
+x_dim1
+length(x_dim1)
+x_dim2
+length(x_dim2)
+```
+
+**Modify the length of Array**
+
+```{r}
+x = c(10,20,30,40,50)
+#x = c(34:89)
+print(x)
+length(x) = 3
+print(x)
+x = c(10,20,30,40,50)
+length(x) = 10
+print(x)
+x_vec = vector("numeric", 5)
+length(x_vec) = 10
+print(x_vec)
+```
+
+
+**Modify the elements in an Array**
+
+```{r}
+x_vec = vector("numeric", 5)
+x_vec
+x_vec[3] = 100
+x_vec
+
+x_vec = vector("numeric", 5)
+x_vec
+x_vec[1:3] = 89
+x_vec
+
+x_vec = vector("numeric", 5)
+x_vec
+x_vec[c(1,3,5)] = 99
+x_vec
+
+```
+
+
+
+**Apply function**
+Apply function has three arguments:: X, MARGIN and FUN.
+
+X: is input array / data
+MARGIN: MARGIN=1, it applies over rows, whereas with MARGIN=2, it works over columns.
+FUN: Function to be applied on complete array / data of values. This function can be system defined or user defined.
+
+```{r}
+# Use apply to calculate the sum of the rows across all the matrices.
+x_dim2 = array(1:12,dim=c(4,3))
+print(x_dim2)
+result <- apply(x_dim2, c(1), length)
+print(result)
+result <- apply(x_dim2, c(1), sum)
+print(result)
+result <- apply(x_dim2, c(2), sum)
+print(result)
+
+```
+
+** Apply function on 3D array **
+
+```{r}
+# Use apply to calculate the sum of the rows across all the matrices.
+x_dim3 = array(1:12,dim=c(2,2,2))
+print(x_dim3)
+result <- apply(x_dim3, c(1), length)
+print(result)
+result <- apply(x_dim3, c(1), sum)
+print(result)
+result <- apply(x_dim3, c(1,2), sum)
+print(result)
+```
+
+
+
+```{r}
+# WAP to create 3 by 3 array
+# Print sum of each row and each column
+x=array(seq.int(10,30,3),dim=c(3,3))
+print(x)
+result = apply(x, 1, sum)
+print(result)
+result = apply(x, 2, sum)
+print(result)
+c(apply(x, 1, sum),apply(x, 2, sum))
+```
+
+```{r}
+# Create 4,3 array
+# find maximum element in each row  -> max()
+# find min element in each column-> min()
+
+```
+
+
+```{r}
+x1 = array(c(1:9))
+x1
+sum(x1)
+apply(x1, 1, sum)
+x2 = array(c(1:9), dim=c(9,1))
+x2
+apply(x2, 1, sum)
+apply(x2, 2, sum)
+sum(x2)
+```
+
+
+
+**Names to array Elements **
+
+```{r}
+x = c(apple = 1, "banana" = 2, "kiwi fruit" = 3, 4)
+print(x)
+x <- 11:14  # ->
+names(x) <- c("First", "Second", "Third", "Fourth")
+print(x)
+print(names(x))
+```
+
+**Indexing in Vectors**
+
+```{r}
+# vectorised operation , operation performed on every element of the array
+x <- (1:10) ^ 2 
+
+print(x)
+x[2]
+x[c(1,5,7)]
+x[c(8,5,7)]
+x[1:3]
+x[-2] # exclude element at index 2
+x[c(-1,-4)] 
+#x[c(-1,-4,5)] #--> gives error
+x[c(TRUE, TRUE, FALSE)] # repeated the same array
+x[100]
+x[-4.99] # floor rounding off
+```
+
+**Indexing in 2D array**
+
+```{r}
+x=array(seq.int(10,30,3),dim=c(3,3))
+print(x)
+x[5]
+x[2,1] # NOT using c() --> it is index in 2D array
+x[c(3,1),c(2,1)] # using C() --> it is index in 1D array
+x[c(3,1),]
+
+```
+
+
+```{r}
+x <- (1:5) ^ 2
+x
+x[c(TRUE, FALSE, FALSE, TRUE)]
+x[c(TRUE)]
+x[c(TRUE, FALSE)] # Broadcasting
+```
+
+**How to use condition to select elements from an Array**
+
+```{r}
+x <- (1:5) ^ 2
+x
+x[c(TRUE, FALSE, TRUE, FALSE, TRUE)]
+x>10 # vectorized operations
+x[x>10]
+x[!x>10]
+```
+
+**Which Function**
+
+```{r}
+x <- (1:5) ^ 2
+x
+print(which(x>5)) # return index of elements which satisfy the condition
+print(x[which(x>5)])
+print(which.min(x)) # index of minimum element in array
+print(x[which.min(x)])
+print(which.max(x)) # index of max element
+print(x[which.max(x)])
+```
+
+
+**Vector Operation**
+
+Adding scalar to vector will add to all elements of that vector.
+
+```{r}
+x = 1:5
+print( x + 1)
+```
+
+Adding two vectors of same length will do element wise addition
+
+```{r}
+x = 1:5
+x1 = 11:15
+print(x+x1)
+```
+
+Adding two vectors of different length will repeat small vector over longer vector
+
+```{r}
+x = 1:5
+y = 1:10
+print(x)
+print(y)
+print(x+y)
+print(x-y)
+print(x*y)
+```
+
+```{r}
+x = 1:5
+y = 11:18
+x
+y
+x+y
+```
+
+
+**Deleting Elements from an Array**
+
+There is no direct function to delete elements.
+
+We can exclude the elements by using negative index as we did earlier.
+
+```{r}
+x = c(10,20,30,40,50)
+print(x)
+print("Delete second element")
+x = x[-2]
+print(x)
+print("Delete multiple elements, index 1 and 4 of new array")
+x = x[c(-1,-4)]
+print(x)
+```
+
+**Cleaning the Environment**
+
+```{r}
+ls()
+rm(list = ls())
+ls()
+```
+
+
+**Controlling Visibility of Variables**
+
+This is way to use what variables are shown in current environment.
+
+```{r}
+rm(list = ls())
+x=10
+
+print("List after creating x")
+ls()
+
+.xyz= 90
+
+print("List after creating .xyz")
+ls()
+
+print("List of all variables")
+ls(all.names = TRUE)
+```

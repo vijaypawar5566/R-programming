@@ -1,0 +1,117 @@
+---
+title: "R tidyverse"
+output: html_notebook
+---
+```{r}
+library("tidyverse")
+```
+
+```{r}
+setosa.mean = mean(iris$Sepal.Length[iris$Species == "setosa"])
+versicolor.mean = mean(iris$Sepal.Length[iris$Species == "versicolor"])
+virginica.mean = mean(iris$Sepal.Length[iris$Species == "virginica"])
+
+iris.means = data.frame(Species = c("setosa", "versicolor", "virginica"),
+              SL.mean = c(setosa.mean, versicolor.mean, virginica.mean))
+iris.means
+```
+
+
+
+```{r}
+iris.means <- iris %>%
+group_by(Species) %>%
+summarize(SL.mean = mean(Sepal.Length),
+    SL.se = sd(Sepal.Length)/sqrt(n()))
+
+iris.means
+```
+
+```{r}
+ggplot(data = iris.means, mapping = aes(x = Species, y = SL.mean))  +
+geom_point() + geom_errorbar(mapping = aes(ymin = SL.mean - SL.se,ymax = SL.mean +
+                                             SL.se), width = 0.3)
+```
+
+
+```{r}
+df <- read.csv("C:/Users/dbda/Documents/telecom.csv") #tibble
+df
+```
+
+```{r}
+df %>%
+  filter(Churn=="yes") %>%
+  select(customerID, TotalCharges)
+
+```
+
+```{r}
+# counting missing values
+df %>%
+  summarise(NAcount_MC = sum(is.na(MonthlyCharges)), 
+            NAcount_TC = sum(is.na(TotalCharges)))
+```
+
+```{r}
+# counting unique, missing, and median values
+df %>% 
+  summarise(n = n_distinct(MonthlyCharges),
+                 na = sum(is.na(MonthlyCharges)),
+                 med = median(MonthlyCharges, na.rm = TRUE))
+```
+
+```{r}
+# mutate missing values
+df %>%
+  mutate(MonthlyCharges
+         = replace(MonthlyCharges,
+                   is.na(MonthlyCharges),
+                   median(MonthlyCharges, na.rm = TRUE)))
+```
+
+```{r}
+df
+```
+
+```{r}
+# mutate missing values, and modify the tibble
+df <- df %>%
+  mutate(MonthlyCharges = replace(MonthlyCharges,
+                                  is.na(MonthlyCharges),
+                                  median(MonthlyCharges, na.rm = TRUE)))
+df
+```
+
+**Non-Standard Missing Values**
+
+```{r}
+df %>%
+  summarise(count = sum(is.na(TotalCharges)))
+
+df$TotalCharges
+```
+
+```{r}
+# replacing with standard missing value type, NA
+df <- df %>%
+  mutate(TotalCharges = replace(TotalCharges, TotalCharges %in% c("na","N/A"), NA)) 
+
+df %>%
+  summarise(count = sum(is.na(TotalCharges)))
+
+df
+
+df$TotalCharges <- as.numeric(df$TotalCharges) 
+
+df
+```
+
+```{r}
+df <- df %>%
+  mutate(TotalCharges = replace(TotalCharges,
+                                is.na(TotalCharges),
+                                median(TotalCharges, na.rm = T)))
+df$TotalCharges
+```
+
